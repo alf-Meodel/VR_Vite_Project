@@ -1,15 +1,21 @@
 import { useCallback, useRef } from "react";
 
-export const DrumCollider = ({ radius = 0.3, height = 1, onHit, ...props }) => {
+export const DrumCollider = ({
+  radius = 0.1,
+  height = 0.1,
+  position = [0, 0, 0], // Position par défaut
+  onHit,
+  ...props
+}) => {
   const isInside = useRef(false);
 
   const onPointerEnter = useCallback(
     (e) => {
       e.stopPropagation();
-      // if (!isInside.current) {
-      onHit();
-      isInside.current = true;
-      // }
+      if (!isInside.current) {
+        onHit();
+        isInside.current = true;
+      }
     },
     [onHit]
   );
@@ -19,16 +25,14 @@ export const DrumCollider = ({ radius = 0.3, height = 1, onHit, ...props }) => {
   }, []);
 
   return (
-    <group {...props}>
+    <group position={position} {...props}>
       <mesh
-        visible={false}
-        // visible={true}
-        position-y={-height / 2 - 0.001}
+        visible={true} // Debugging
         onPointerEnter={onPointerEnter}
         onPointerLeave={onPointerLeave}
       >
-        <cylinderGeometry args={[radius, radius, height, 32]} />
-        <meshStandardMaterial color="pink" />
+        <cylinderGeometry args={[radius, radius, height, 16]} />
+        <meshStandardMaterial color="pink" opacity={0.5} transparent />
       </mesh>
     </group>
   );

@@ -18,6 +18,7 @@ export const Experience = () => {
 
   return (
     <>
+      <OrbitControls />
       <ambientLight />
       <group position={[0, 0, 3]}>
         <Gltf src="models/vrSCENE0.glb" receiveShadow />
